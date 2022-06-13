@@ -1,0 +1,64 @@
+
+
+[Executar a aplicação]
+Em um terminal,  ir até o diretório de instalação /home/pi/chamadas e então executar:
+sudo ./dameon 
+
+Em um outro terminal, também ir para o diretório de instalação e então executar:
+./Chamadas
+
+Importante: o aplicativo "daemon" deve estar em execução antes de iniciar o software "Chamadas".
+
+
+
+
+
+
+[Receptores RF]
+
+O sotware de decodificação dos sinais dos receptores RF (daemon) 
+
+
+
+
+[Instalação]
+
+- Ir para o diretório /home/pi;
+- Criar o diretório /home/pi/chamadas;
+- Copiar os seguintes arquivos para o diretório /home/pi/chamadas:
+
+daemon	    -> arquivo executável do receptor de mensagens do receptor RF
+Chamadas    -> arquivo executável do sofware de chamadas
+config.cal  -> arquivo de dados de pontos de chamada (não deve ser modificado manualmente)
+config.dat  -> arquivo configuração
+alarm.dat   -> arquivo WAV no formato PCM com o som de alarme (pode ser trocado por outro)
+libs/libpigpio.so -> biblioteca
+libs/libwx_gtk2u-3.1.so.0.0.0 -> biblioteca
+
+
+- seguir o tutorial em https://www.raspberrypi.org/documentation/configuration/audio-config.md 
+  para configura a saída de audio para o a saída analógica
+
+- em um terminal no raspberry, executar os comandos seguintes na sequência apresentada:
+  sudo apt-get install oss-compat
+  sudo touch  /etc/ld.so.conf.d/libs.conf
+  sudo chmod 777  /etc/ld.so.conf.d/libs.conf 
+  sudo echo "/home/pi/chamadas/libs" > /etc/ld.so.conf.d/libs.conf
+  sudo ldconfig
+  sudo shutdown -r now 
+
+  O último comando reiniciará o raspberry
+      
+
+
+
+
+[Mensagens de erros da aplicação]
+
+
+Código	Significado
+11	Erro ao acessar o arquivo 'config.cal'	
+12	Erro ao acessar o arquivo 'config.dat'
+13	Erro ao acessar o dispositivo serial 
+14	Erro ao se comunicar com o 'daemon'
+
